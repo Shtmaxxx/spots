@@ -27,10 +27,6 @@ class ChatsCubit extends Cubit<ChatsState> {
             ChatsInitial(chats: chats),
           );
         });
-
-        // emit(
-        //   ChatsInitial(chats: chats),
-        // );
       },
     );
   }

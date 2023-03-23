@@ -71,4 +71,10 @@ class MessagesCubit extends Cubit<MessagesState> {
           ),
         ),
       );
+
+  @override
+  Future<void> close() {
+    messageController.dispose();
+    return super.close();
+  }
 }

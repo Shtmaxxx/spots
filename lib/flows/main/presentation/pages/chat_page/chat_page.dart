@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:spots/flows/main/domain/entities/message.dart';
 import 'package:spots/flows/main/presentation/pages/chat_page/cubit/messages_cubit.dart';
+import 'package:spots/flows/main/presentation/pages/chat_page/widgets/group_message_item.dart';
 import 'package:spots/flows/main/presentation/pages/chat_page/widgets/message_item.dart';
 import 'package:spots/flows/main/presentation/pages/chat_page/widgets/message_text_field.dart';
 import 'package:spots/navigation/app_state_cubit/app_state_cubit.dart';
@@ -12,12 +13,16 @@ import 'package:spots/widgets/circular_loading.dart';
 class ChatPage extends StatelessWidget {
   const ChatPage({
     required this.chatId,
+    required this.chatName,
+    required this.isGroup,
     super.key,
   });
 
   static const path = '/chat';
 
   final String chatId;
+  final String chatName;
+  final bool isGroup;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +45,7 @@ class ChatPage extends StatelessWidget {
         child: Builder(builder: (context) {
           return Scaffold(
             appBar: AppBar(
-              title: const Text('Maksym Shtoler'),
+              title: Text(chatName),
               centerTitle: true,
             ),
             backgroundColor: Theme.of(context).canvasColor,
@@ -65,17 +70,25 @@ class ChatPage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 verticalDirection: VerticalDirection.up,
                                 children: [
-                                  const SizedBox(height: 55),
-                                  ...messages
-                                      .map(
-                                        (item) => MessageItem(
-                                          message: item.messageText,
-                                          time: DateFormat.Hm()
-                                              .format(item.dateTime),
-                                          sentByUser: item.sentByUser,
-                                        ),
-                                      )
-                                      .toList(),
+                                  const SizedBox(height: 100),
+                                  ...messages.map((item) {
+                                    if (!isGroup || item.sentByUser) {
+                                      return MessageItem(
+                                        message: item.messageText,
+                                        time: DateFormat.Hm()
+                                            .format(item.dateTime),
+                                        sentByUser: item.sentByUser,
+                                      );
+                                    } else {
+                                      return GroupMessageItem(
+                                        message: item.messageText,
+                                        time: DateFormat.Hm()
+                                            .format(item.dateTime),
+                                        senderName: item.senderName,
+                                        sentByUser: false,
+                                      );
+                                    }
+                                  }).toList(),
                                 ],
                               ),
                             );

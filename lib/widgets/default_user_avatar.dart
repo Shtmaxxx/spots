@@ -4,11 +4,13 @@ class DefaultUserAvatar extends StatelessWidget {
   const DefaultUserAvatar({
     required this.letter,
     this.size = 50,
+    this.fontSize = 21,
     super.key,
   });
 
   final String letter;
   final double size;
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +30,10 @@ class DefaultUserAvatar extends StatelessWidget {
       ),
       child: Center(
         child: Text(
-          letter,
-          style: const TextStyle(
+          letter.toUpperCase(),
+          style: TextStyle(
             color: Colors.white,
-            fontSize: 21,
+            fontSize: fontSize,
           ),
         ),
       ),

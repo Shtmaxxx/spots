@@ -73,6 +73,8 @@ class MainPage extends StatelessWidget {
                               ChatPage.path,
                               queryParameters: {
                                 'chatId': chat.id,
+                                'chatName': chat.title,
+                                'isGroup': chat.isGroup ? 'true' : 'false',
                               },
                             ),
                           );

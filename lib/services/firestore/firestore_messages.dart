@@ -30,7 +30,7 @@ class FirestoreMessages {
 
             return MessageModel(
               id: m.id,
-              senderRef: senderRef,
+              senderName: senderDoc.get('email'),
               sentByUser: senderDoc.id == userId,
               messageText: data['text'],
               dateTime: data['dateTime'].toDate(),

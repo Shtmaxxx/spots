@@ -37,38 +37,46 @@ class ChatItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               DefaultUserAvatar(
-                letter: title[0].toUpperCase(),
-                size: 50,
+                letter: title[0],
               ),
               const SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
+              Expanded(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            title,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            recentMessage,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    recentMessage,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                  ),
-                ],
+                    if (dateTime.isToday()) ...{
+                      Text(
+                        DateFormat.Hm().format(dateTime),
+                      ),
+                    } else ...{
+                      Text(
+                        DateFormat('dd.MM').format(dateTime),
+                      ),
+                    },
+                  ],
+                ),
               ),
-              const Spacer(),
-              if (dateTime.isToday()) ...{
-                Text(
-                  DateFormat.Hm().format(dateTime),
-                ),
-              } else ...{
-                Text(
-                  DateFormat('dd.MM').format(dateTime),
-                ),
-              },
             ],
           ),
         ),

@@ -29,7 +29,7 @@ class AuthDataSourceImpl implements AuthDataSourceI {
         password: password,
       );
       final userEmail = userCredential.user!.email!;
-      final userExists = await firestoreUsers.checkUserExists(email);
+      final userExists = await firestoreUsers.checkUserExists(email.toLowerCase());
       if (!userExists) {
         await firestoreUsers.addUser(userEmail);
       }

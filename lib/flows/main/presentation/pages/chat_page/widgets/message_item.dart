@@ -37,7 +37,12 @@ class MessageItem extends StatelessWidget {
               Flexible(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(10, 10, 0, 10),
-                  child: Text(message),
+                  child: Text(
+                    message,
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
                 ),
               ),
               Padding(

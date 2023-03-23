@@ -23,6 +23,8 @@ class AppRouteMap extends RouteMap {
       ChatPage.path: (routeData) => _createMaterialPage(
             ChatPage(
               chatId: routeData.queryParameters['chatId']!,
+              chatName: routeData.queryParameters['chatName']!,
+              isGroup: routeData.queryParameters['isGroup'] == 'true',
             ),
           ),
     };
