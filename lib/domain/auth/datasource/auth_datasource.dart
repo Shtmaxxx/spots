@@ -28,11 +28,6 @@ class AuthDataSourceImpl implements AuthDataSourceI {
         email: email,
         password: password,
       );
-      final userEmail = userCredential.user!.email!;
-      final userExists = await firestoreUsers.checkUserExists(email.toLowerCase());
-      if (!userExists) {
-        await firestoreUsers.addUser(userEmail);
-      }
       return userCredential;
     } on FirebaseAuthException catch (exception) {
       throw (ServerFailure(message: exception.message ?? exception.code));
@@ -67,7 +62,8 @@ class AuthDataSourceImpl implements AuthDataSourceI {
         email: email,
         password: password,
       );
-      await firestoreUsers.addUser(email);
+      final userEmail = userCredential.user!.email!;
+      await firestoreUsers.addUser(userEmail);
 
       return userCredential;
     } on FirebaseAuthException catch (exception) {
