@@ -15,6 +15,16 @@ class MessageItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    const messageTextStyle = TextStyle(
+      fontSize: 16,
+    );
+    final timeTextStyle = TextStyle(
+      fontSize: 12,
+      color: sentByUser
+          ? Theme.of(context).primaryColorDark
+          : Theme.of(context).hintColor,
+      fontStyle: FontStyle.italic,
+    );
 
     return Align(
       alignment: sentByUser ? Alignment.centerRight : Alignment.centerLeft,
@@ -30,36 +40,60 @@ class MessageItem extends StatelessWidget {
             color:
                 sentByUser ? Theme.of(context).primaryColorLight : Colors.white,
           ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Flexible(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 10, 0, 10),
-                  child: Text(
-                    message,
-                    style: const TextStyle(
-                      fontSize: 16,
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
+          child: LayoutBuilder(builder: (context, constraints) {
+            final linesAmount = (TextPainter(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: message,
+                    style: messageTextStyle,
+                  ),
+                  TextSpan(
+                    text: time,
+                    style: timeTextStyle,
+                  ),
+                ],
+              ),
+              textScaleFactor: MediaQuery.of(context).textScaleFactor,
+              textDirection: TextDirection.ltr,
+            )..layout(maxWidth: constraints.maxWidth - 5))
+                .computeLineMetrics()
+                .length;
+
+            if (linesAmount == 1) {
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 5),
+                      child: Text(message, style: messageTextStyle),
                     ),
                   ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 5, right: 10),
-                child: Text(
-                  time,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: sentByUser
-                        ? Theme.of(context).primaryColorDark
-                        : Theme.of(context).hintColor,
-                    fontStyle: FontStyle.italic,
+                  const SizedBox(width: 5),
+                  Text(
+                    time,
+                    style: timeTextStyle,
+                  )
+                ],
+              );
+            } else {
+              return Column(
+                children: [
+                  Text(message, style: messageTextStyle),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      time,
+                      style: timeTextStyle,
+                    ),
                   ),
-                ),
-              )
-            ],
-          ),
+                ],
+              );
+            }
+          }),
         ),
       ),
     );

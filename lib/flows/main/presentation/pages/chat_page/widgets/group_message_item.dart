@@ -28,16 +28,16 @@ class GroupMessageItem extends StatelessWidget {
           : Theme.of(context).hintColor,
       fontStyle: FontStyle.italic,
     );
-    final nameMaxSize = (TextPainter(
+    final textMaxSize = (TextPainter(
       text: TextSpan(
         children: [
-          TextSpan(text: message),
+          TextSpan(
+            text: message,
+            style: messageTextStyle,
+          ),
           TextSpan(
             text: time,
-            style: const TextStyle(
-              fontSize: 12,
-              fontStyle: FontStyle.italic,
-            ),
+            style: timeTextStyle,
           ),
         ],
       ),
@@ -71,7 +71,7 @@ class GroupMessageItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: nameMaxSize.width,
+                    width: textMaxSize.width,
                     child: Text(
                       senderName,
                       style: const TextStyle(
@@ -82,26 +82,35 @@ class GroupMessageItem extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Flexible(
-                        child: Padding(
+                  // ---------------------------------------------------
+                  // textMaxSize.width + 70 - width of the whole message
+                  // ---------------------------------------------------
+                  if (textMaxSize.width + 70 < width * 0.8) ...{
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
                           padding: const EdgeInsets.only(bottom: 5),
-                          child: Text(
-                            message,
-                            style: messageTextStyle
-                          ),
+                          child: Text(message, style: messageTextStyle),
                         ),
-                      ),
-                      Text(
+                        Text(
+                          time,
+                          style: timeTextStyle,
+                        )
+                      ],
+                    ),
+                  } else ...{
+                    Text(message, style: messageTextStyle),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
                         time,
                         style: timeTextStyle,
-                      )
-                    ],
-                  ),
+                      ),
+                    ),
+                  },
                 ],
               ),
             ),
