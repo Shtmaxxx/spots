@@ -22,7 +22,7 @@ class MenuItemsList extends StatelessWidget {
           const SizedBox(height: 8),
           NavigationMenuItem(
             title: 'Find Spots',
-            iconPath: Assets.icons.userProfileIcon.path,
+            iconPath: Assets.icons.menuMap.path,
             onTap: () {},
           ),
           const Spacer(),

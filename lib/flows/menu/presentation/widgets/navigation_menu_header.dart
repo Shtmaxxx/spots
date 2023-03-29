@@ -27,7 +27,7 @@ class NavigationMenuHeader extends StatelessWidget {
         const SizedBox(height: 32),
         NavigationMenuItem(
           title: username,
-          iconPath: Assets.icons.userProfileIcon.path,
+          iconPath: Assets.icons.profileName.path,
         ),
         const SizedBox(height: 12),
         Container(
