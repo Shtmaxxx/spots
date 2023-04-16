@@ -8,7 +8,7 @@ class ThemeDataValues {
         fontFamily: GoogleFonts.rubik().fontFamily,
         appBarTheme: AppBarTheme(
           backgroundColor: const Color(0xFF4d52e3),
-          centerTitle: false,
+          centerTitle: true,
           elevation: 0,
           foregroundColor: Colors.white,
           titleTextStyle: GoogleFonts.rubik(

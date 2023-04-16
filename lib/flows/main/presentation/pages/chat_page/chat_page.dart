@@ -46,7 +46,6 @@ class ChatPage extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               title: Text(chatName),
-              centerTitle: true,
             ),
             backgroundColor: Theme.of(context).canvasColor,
             body: Stack(

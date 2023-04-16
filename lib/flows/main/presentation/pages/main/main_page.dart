@@ -33,7 +33,6 @@ class MainPage extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             title: const Text('Chats'),
-            centerTitle: true,
           ),
           drawer: const NavigationMenu(),
           body: Stack(

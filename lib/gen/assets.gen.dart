@@ -21,18 +21,41 @@ class $AssetsIconsGen {
   /// File path: assets/icons/menu_logo.svg
   SvgGenImage get menuLogo => const SvgGenImage('assets/icons/menu_logo.svg');
 
+  /// File path: assets/icons/menu_map.svg
+  SvgGenImage get menuMap => const SvgGenImage('assets/icons/menu_map.svg');
+
+  /// File path: assets/icons/profile_name.svg
+  SvgGenImage get profileName =>
+      const SvgGenImage('assets/icons/profile_name.svg');
+
   /// File path: assets/icons/userProfileIcon.svg
   SvgGenImage get userProfileIcon =>
       const SvgGenImage('assets/icons/userProfileIcon.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [logOutIcon, menuLogo, userProfileIcon];
+  List<SvgGenImage> get values =>
+      [logOutIcon, menuLogo, menuMap, profileName, userProfileIcon];
+}
+
+class $AssetsMarkersGen {
+  const $AssetsMarkersGen();
+
+  /// File path: assets/markers/spot.png
+  AssetGenImage get spot => const AssetGenImage('assets/markers/spot.png');
+
+  /// File path: assets/markers/spot_joined.png
+  AssetGenImage get spotJoined =>
+      const AssetGenImage('assets/markers/spot_joined.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [spot, spotJoined];
 }
 
 class Assets {
   Assets._();
 
   static const $AssetsIconsGen icons = $AssetsIconsGen();
+  static const $AssetsMarkersGen markers = $AssetsMarkersGen();
   static const SvgGenImage onboarding1 = SvgGenImage('assets/onboarding_1.svg');
   static const SvgGenImage screenBubbles =
       SvgGenImage('assets/screen_bubbles.svg');

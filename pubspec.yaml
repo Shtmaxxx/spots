@@ -73,6 +73,7 @@ dependencies:
 
   # OTHER
   google_fonts: ^3.0.1
+  google_maps_flutter: ^2.2.3
 
 
 dev_dependencies:
@@ -108,3 +109,4 @@ flutter:
   assets:
     - assets/
     - assets/icons/
+    - assets/markers/
