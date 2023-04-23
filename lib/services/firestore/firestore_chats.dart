@@ -54,4 +54,22 @@ class FirestoreChats {
 
     return chats;
   }
+
+  Future<void> addUserToGroupChat({
+    required String userId,
+    required String chatId,
+  }) async {
+    final currentUserRef = _usersCollection.doc(userId);
+    final result = await _chatsCollection
+        .where(
+          'participantsRefs',
+          arrayContains: currentUserRef,
+        )
+        .get();
+    if (result.docs.isEmpty) {
+      await _chatsCollection.doc(chatId).update({
+        'participantsRefs': FieldValue.arrayUnion([currentUserRef]),
+      });
+    }
+  }
 }

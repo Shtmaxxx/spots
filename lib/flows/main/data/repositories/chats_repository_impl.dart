@@ -52,4 +52,20 @@ class ChatsRepositoryImpl implements ChatsRepositoryI {
       return Left(ServerFailure(message: 'Something went wrong: $exception'));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> addUserToGroupChat({
+    required String userId,
+    required String chatId,
+  }) async {
+    try {
+      final result = await remoteDataSource.addUserToGroupChat(
+        userId: userId,
+        chatId: chatId,
+      );
+      return Right(result);
+    } on ServerFailure catch (exception) {
+      return Left(ServerFailure(message: 'Something went wrong: $exception'));
+    }
+  }
 }

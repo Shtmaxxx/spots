@@ -14,6 +14,9 @@ import 'package:flutter/services.dart';
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/add.svg
+  SvgGenImage get add => const SvgGenImage('assets/icons/add.svg');
+
   /// File path: assets/icons/logOutIcon.svg
   SvgGenImage get logOutIcon =>
       const SvgGenImage('assets/icons/logOutIcon.svg');
@@ -34,7 +37,7 @@ class $AssetsIconsGen {
 
   /// List of all assets
   List<SvgGenImage> get values =>
-      [logOutIcon, menuLogo, menuMap, profileName, userProfileIcon];
+      [add, logOutIcon, menuLogo, menuMap, profileName, userProfileIcon];
 }
 
 class $AssetsMarkersGen {

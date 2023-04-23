@@ -39,6 +39,18 @@ class MarkerPressed extends MapDataLoaded {
   final MarkerPoint pressedMarkerPoint;
 }
 
+class SpotJoined extends MapDataLoaded {
+  const SpotJoined({
+    super.markers,
+    super.markerPoints,
+    required this.chatId,
+    required this.spotName,
+  });
+
+  final String chatId;
+  final String spotName;
+}
+
 class MapError extends MapDataLoaded {
   const MapError({
     super.markers,

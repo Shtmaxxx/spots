@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:injectable/injectable.dart';
 import 'package:spots/domain/core/errors/failures.dart';
-import 'package:spots/domain/core/usecase/usecase.dart';
+import 'package:spots/flows/main/domain/usecases/join_chat_group.dart';
 import 'package:spots/flows/menu/domain/entities/marker_point.dart';
 import 'package:spots/flows/menu/domain/usecases/get_markers.dart';
 import 'package:spots/flows/menu/presentation/pages/spots_map/enums/markers_icons.dart';
@@ -18,9 +18,11 @@ part 'map_state.dart';
 class MapCubit extends Cubit<MapState> {
   MapCubit({
     required this.getMarkers,
+    required this.joinChatGroup,
   }) : super(const Loading());
 
   final GetMarkersUseCase getMarkers;
+  final JoinChatGroupUseCase joinChatGroup;
 
   static const CameraPosition defaultInitialCameraPosition = CameraPosition(
     target: LatLng(50.448899667450405, 30.456975575830512),
@@ -30,14 +32,14 @@ class MapCubit extends Cubit<MapState> {
   late final GoogleMapController controller;
   late Map<MarkersIcons, Uint8List> markersIcons;
 
-  Future<void> initMapData(String? focusedPlaceId) async {
+  Future<void> initMapData(String userId, {String? focusedPlaceId}) async {
     markersIcons = await MarkerHelper.initMarkersIcons();
     await LocationPermissionsHelper.requestLocationPermissions();
-    await loadMapData(focusedPlaceId);
+    await loadMapData(userId, focusedPlaceId);
   }
 
-  Future<void> loadMapData([String? focusedPlaceId]) async {
-    final result = await getMarkers(NoParams());
+  Future<void> loadMapData(String userId, [String? focusedPlaceId]) async {
+    final result = await getMarkers(userId);
     result.fold(
       (failure) {
         emit(
@@ -77,7 +79,9 @@ class MapCubit extends Cubit<MapState> {
           (m) => Marker(
             markerId: MarkerId(m.id),
             position: LatLng(m.latitude, m.longitude),
-            icon: BitmapDescriptor.fromBytes(markersIcons[MarkersIcons.spot]!),
+            icon: BitmapDescriptor.fromBytes(m.spotJoined
+                ? markersIcons[MarkersIcons.spotJoined]!
+                : markersIcons[MarkersIcons.spot]!),
             onTap: () => _onMarkerPressed(m.id),
           ),
         )
@@ -92,6 +96,49 @@ class MapCubit extends Cubit<MapState> {
       ),
     );
   }
+
+  Future<void> joinSpot({
+    required String userId,
+    required String chatId,
+    required String spotName,
+  }) async {
+    final result = await joinChatGroup(
+      JoinChatParams(userId: userId, chatId: chatId),
+    );
+    result.fold(
+      (failure) {
+        emit(
+          MapError(
+            markers: state.markers,
+            markerPoints: state.markerPoints,
+            failure: failure,
+          ),
+        );
+      },
+      (_) {
+        emit(
+          SpotJoined(
+            chatId: chatId,
+            spotName: spotName,
+          ),
+        );
+      },
+    );
+  }
+
+  void resetMap() => emit(
+        MapDataLoaded(
+          markers: state.markers,
+          markerPoints: state.markerPoints,
+        ),
+      );
+
+  void emitLoading() => emit(
+        Loading(
+          markers: state.markers,
+          markerPoints: state.markerPoints,
+        ),
+      );
 
   void onMapCreated(GoogleMapController mapController) {
     controller = mapController;

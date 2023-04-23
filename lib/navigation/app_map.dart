@@ -21,20 +21,34 @@ class AppRouteMap extends RouteMap {
               child: MainPage(),
             ),
           ),
-      ChatPage.path: (routeData) => _createMaterialPage(
+      ..._chatsPageRoute(),
+      ..._spotsMapRoute(),
+    };
+  }
+
+  static Map<String, PageBuilder> _chatsPageRoute([String path = '']) {
+    return {
+      path + ChatPage.path: (routeData) => _createMaterialPage(
             ChatPage(
               chatId: routeData.queryParameters['chatId']!,
               chatName: routeData.queryParameters['chatName']!,
               isGroup: routeData.queryParameters['isGroup'] == 'true',
             ),
           ),
-      ..._spotsMapRoute(),
+      path + SpotsMapPage.path + ChatPage.path: (routeData) =>
+          _createMaterialPage(
+            ChatPage(
+              chatId: routeData.queryParameters['chatId']!,
+              chatName: routeData.queryParameters['chatName']!,
+              isGroup: routeData.queryParameters['isGroup'] == 'true',
+            ),
+          ),
     };
   }
 
   static Map<String, PageBuilder> _spotsMapRoute([String path = '']) {
     return {
-      SpotsMapPage.path: (routeData) => _createMaterialPage(
+      path + SpotsMapPage.path: (routeData) => _createMaterialPage(
             SpotsMapPage(
               focusedPlaceId: routeData.queryParameters['markerId'],
             ),

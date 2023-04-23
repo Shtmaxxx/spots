@@ -108,34 +108,38 @@ class ChatPage extends StatelessWidget {
                     ),
                     padding:
                         const EdgeInsets.only(left: 20, top: 10, right: 15),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Column(
                       children: [
-                        MessageTextField(
-                          controller:
-                              context.read<MessagesCubit>().messageController,
-                        ),
-                        const SizedBox(width: 10),
-                        TextButton(
-                          onPressed: () async =>
-                              await context.read<MessagesCubit>().sendMessage(
-                                    chatId: chatId,
-                                    senderId: user.id,
-                                    dateTime: DateTime.now(),
-                                  ),
-                          style: TextButton.styleFrom(
-                            backgroundColor: Theme.of(context).primaryColor,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            padding: const EdgeInsets.all(6),
-                            minimumSize: const Size(0, 0),
-                          ),
-                          child: const Text(
-                            'Send',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            MessageTextField(
+                              controller:
+                                  context.read<MessagesCubit>().messageController,
                             ),
-                          ),
+                            const SizedBox(width: 10),
+                            TextButton(
+                              onPressed: () async =>
+                                  await context.read<MessagesCubit>().sendMessage(
+                                        chatId: chatId,
+                                        senderId: user.id,
+                                        dateTime: DateTime.now(),
+                                      ),
+                              style: TextButton.styleFrom(
+                                backgroundColor: Theme.of(context).primaryColor,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                padding: const EdgeInsets.all(6),
+                                minimumSize: const Size(0, 0),
+                              ),
+                              child: const Text(
+                                'Send',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

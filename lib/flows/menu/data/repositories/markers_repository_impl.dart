@@ -12,9 +12,9 @@ class MarkersRepositoryImpl implements MarkersRepositoryI {
   MarkersRepositoryImpl(this.remoteDataSource);
 
   @override
-  Future<Either<Failure, List<MarkerPoint>>> getMarkers() async {
+  Future<Either<Failure, List<MarkerPoint>>> getMarkers(String userId) async {
     try {
-      final result = await remoteDataSource.getMarkers();
+      final result = await remoteDataSource.getMarkers(userId);
       return Right(result);
     } on ServerFailure catch (exception) {
       return Left(ServerFailure(message: 'Something went wrong: $exception'));

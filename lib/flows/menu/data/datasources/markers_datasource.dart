@@ -4,7 +4,7 @@ import 'package:spots/flows/menu/data/models/marker_point_model.dart';
 import 'package:spots/services/firestore/firestore_markers.dart';
 
 abstract class MarkersDatasourceI {
-  Future<List<MarkerPointModel>> getMarkers();
+  Future<List<MarkerPointModel>> getMarkers(String userId);
 }
 
 @Injectable(as: MarkersDatasourceI)
@@ -16,9 +16,9 @@ class MarkersDatasourceImpl implements MarkersDatasourceI {
   final FirestoreMarkers firestoreMarkers;
   
   @override
-  Future<List<MarkerPointModel>> getMarkers() async {
+  Future<List<MarkerPointModel>> getMarkers(String userId) async {
     try {
-      final result = await firestoreMarkers.getMarkerPoints();
+      final result = await firestoreMarkers.getMarkerPoints(userId);
       return result;
     } catch (exception) {
       throw ServerFailure(message: 'Something went wrong: $exception');
